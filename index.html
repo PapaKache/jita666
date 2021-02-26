@@ -1,0 +1,332 @@
+<!DOCTYPE HTML>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<style type="text/css">
+#div1 {width:1; height:64;padding:10px;border:1px solid #aaaaaa;display: inline-block;}
+.chord_cell {height:64px;border:1px solid #aaaaaa;}
+#chord_cell_name {border:1px solid #aaaaaa;}
+.title-margin-center{
+                width: 100%;
+                height: 100px;
+                text-align: center;
+                line-height: 100px;
+}
+</style>
+
+</head>
+<body>
+
+<!-- title -->
+<div><input class="title-margin-center" value="音乐名称"> </input></div>
+<div>
+	<bdo dir="ltr">音调</bdo>
+	<select>
+		<option value ="C">C调</option>
+		<option value ="D">D调</option>
+		<option value="E">E调</option>
+		<option value="F">F调</option>
+	</select>
+</div>
+
+<div>
+	<bdo dir="ltr">节拍</bdo>
+	<select id='beat_time'>
+		<option value ="4/4">4/4</option>
+		<option value ="3/4">3/4</option>
+		<option value="2/4">2/4</option>
+		<option value="6/8">6/8</option>
+	</select>
+</div>
+
+
+<div>
+	<bdo dir="ltr">速度</bdo>
+	<input value="70"></input>
+</div>
+<div>
+	<bdo dir="ltr">作者</bdo>
+	<input value="佚名"></input>
+</div>
+<div>
+	<bdo dir="ltr">备注</bdo>
+	<input value="无"></input>
+</div>
+<!-- title end-->
+
+<!-- chord source -->
+<div> <bdo dir="ltr">和弦示意图(可拖拽)</bdo></div>
+<table border = "1px" width="100%" height="100%" style="table-layout:fixed">
+	<tr>
+		<td id="chord_cell_name"> <select id = 'chord_src1'  onchange="gradeChange(this.options[this.options.selectedIndex].text,1)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src2'  onchange="gradeChange(this.options[this.options.selectedIndex].text,2)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src3'  onchange="gradeChange(this.options[this.options.selectedIndex].text,3)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src4'  onchange="gradeChange(this.options[this.options.selectedIndex].text,4)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src5'  onchange="gradeChange(this.options[this.options.selectedIndex].text,5)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src6'  onchange="gradeChange(this.options[this.options.selectedIndex].text,6)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src7'  onchange="gradeChange(this.options[this.options.selectedIndex].text,7)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src8'  onchange="gradeChange(this.options[this.options.selectedIndex].text,8)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src9'  onchange="gradeChange(this.options[this.options.selectedIndex].text,9)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src10'  onchange="gradeChange(this.options[this.options.selectedIndex].text,10)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src11'  onchange="gradeChange(this.options[this.options.selectedIndex].text,11)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src12'  onchange="gradeChange(this.options[this.options.selectedIndex].text,12)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src13'  onchange="gradeChange(this.options[this.options.selectedIndex].text,13)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src14'  onchange="gradeChange(this.options[this.options.selectedIndex].text,14)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src15'  onchange="gradeChange(this.options[this.options.selectedIndex].text,15)" ></select></td>
+		<td id="chord_cell_name"> <select id = 'chord_src16'  onchange="gradeChange(this.options[this.options.selectedIndex].text,16)" ></select></td>
+	</tr>
+	
+	<tr>
+		<td id="chord_cell"><img id="chord_drag1" draggable="true" ondragstart="drag(event)" /></td>
+		<td id="chord_cell"><img id="chord_drag2" draggable="true" ondragstart="drag(event)" /></td>
+		<td id="chord_cell"><img id="chord_drag3" draggable="true" ondragstart="drag(event)" /></td>
+		<td id="chord_cell"><img id="chord_drag4" draggable="true" ondragstart="drag(event)" /></td>
+		<td id="chord_cell"><img id="chord_drag5" draggable="true" ondragstart="drag(event)" /></td>
+	</tr>
+</table>
+<!-- chord source end-->
+
+<!-- main-->
+<div> <bdo dir="ltr">乐谱</bdo></div>
+<table id="table_chord" border = "1px" width="100%" height="100%" style="table-layout:fixed">
+</table>
+<div>
+	<button onclick="add_line()">新增一行</button>
+	<button onclick="del_line()">减少一行</button>
+</div>
+<hr border='1px'/>
+<div>
+	<bdo dir="ltr">歌词字体大小</bdo>
+	<input id="lyric_size" type="range" value="5" onchange="change_lyric_font_size()">
+</div>
+<div><button>全部保存</button></div>
+<!-- main end-->
+
+<!--
+<img id="drag1" src="c.png" draggable="true" ondragstart="drag(event)" />
+<img id="drag2" src="d.png" draggable="true" ondragstart="drag(event)" />
+-->
+</body>
+
+<script type="text/javascript">
+var key_list = ["C","D","E","F","G","A","B","Cm","Dm","Em","Fm","Gm","Am","Bm"];
+var default_key_c_list = ["C","Am","F","G", "F", "Em"];
+var g_row_index = -1;
+
+function get_table_values()
+{
+	var tb = document.getElementById('table_chord');
+}
+
+function change_lyric_font_size()
+{
+	var size = document.getElementById('lyric_size').value;
+	console.log('font size change:' + size);
+
+	var tb = document.getElementById('table_chord');
+	console.log(tb.rows.length);
+	for (var row = 0; row < tb.rows.length; row++)
+	{
+		//console.log(tb.rows[row].cells.length);
+		for (var col = 0; col < tb.rows[row].cells.length; col++) 
+		{
+			console.log(tb.rows[row].cells[col].innerHTML);
+			console.log(typeof tb.rows[row].cells[col].innerHTML);
+			if (tb.rows[row].cells[col].innerHTML.length > 0)
+			{
+				var item = tb.rows[row].cells[col].innerHTML.getElementsByTagName('input');		
+
+				if (item != undefined)
+				{
+					console.log(item);
+				//console.log(tb.rows[row].cells[col].innerHTML);
+				//console.log(item);				
+				//console.log('-----------------------------------------');
+				}
+				console.log('-----------------------------------------');
+			}
+		}
+	}
+	
+}
+
+function del_line()
+{
+	if (g_row_index < 0)
+		return;
+
+	var tb = document.getElementById('table_chord');
+	tb.rows[g_row_index].remove();
+	tb.rows[g_row_index - 1].remove();
+	g_row_index -= 2;
+	
+}
+
+function add_line()
+{
+	console.log("add line");
+	g_row_index += 2;
+		
+	var sel_beat_time_id = document.getElementById('beat_time');
+	//bt = sel_beat_time_id.selectedIndex;
+	beat_time = sel_beat_time_id.value;
+	//console.log(bt);
+
+	s = "<tr>";
+	for(var i = 0; i < 12; i++)
+	{
+		index = i + (g_row_index - 1)/2 * 12 + 1;
+		s += "<td" + " main_chord_index" + index + " class='chord_cell' ondrop='drop(event)' ondragover='allowDrop(event)' onclick='on_click_clear_single(this)'> </td>";
+	}
+	s += "</tr>";
+
+	if (beat_time == "4/4")
+	{
+		s += "<tr>";
+		for(var i = 0; i < 3; i++)
+		{
+			index = i + (g_row_index - 1)/2 * 3 + 1;
+			s += "<td" + " main_lyric" + index + " colspan='4'><input style='width:96%; height: 100%'></input></td>";
+		}
+		s += "</tr>";
+
+	}
+
+	else if (beat_time == "3/4")
+	{
+		s += "<tr>";
+		for(var i = 0; i < 4; i++)
+		{
+			index = i + (g_row_index - 1)/2 * 4 + 1;
+			s += "<td" + " main_lyric" + index + " colspan='4'><input style='width:96%; height: 100%'></input></td>";
+		}
+		s += "</tr>";
+
+	}
+	else
+	{
+		s += "<tr>";
+		for(var i = 0; i < 6; i++)
+		{
+			index = i + (g_row_index - 1)/2 * 6 + 1;
+			s += "<td" + " main_lyric" + index + " colspan='4'><input style='width:96%; height: 100%'></input></td>";
+		}
+		s += "</tr>";
+
+	}
+	$('#table_chord').append(s);
+	
+}
+
+function allowDrop(ev)
+{
+	ev.preventDefault();
+}
+
+function drag(ev)
+{
+	ev.dataTransfer.setData("Text",ev.target.id);
+}
+
+function drop(ev)
+{
+	ev.preventDefault();
+	var data=ev.dataTransfer.getData("Text");
+	//console.log(ev)
+	target = ev.target;
+	if (target.tagName != "TD")
+	{
+		target = target.parentNode;
+	}
+	//console.log(target);
+	//console.log(target.parentNode);
+	//console.log(data);
+	item = document.getElementById(data);
+	var img_node = document.createElement('img');
+	img_node.src = item.src;
+	
+	//ev.target = img_node;
+	//ev.target.replaceChild(img_node);
+	//ev.target.appendChild(img_node);
+	//ev.target.appendChild(document.getElementById(data));
+	
+	let lists=target.getElementsByTagName("img");
+    //console.log(lists) ;
+	if (lists.length > 0)
+    {
+		for (var i = 0; i < lists.length; i++)
+			target.removeChild(lists[i]);
+    }
+    target.appendChild(img_node);
+}
+
+function on_click_clear_single(target)
+{
+	console.log(typeof target);
+	console.log(target);
+	if (target.tagName != "TD")
+	{
+		target = target.parentNode;
+	}
+	let lists=target.getElementsByTagName("img");
+    //console.log(lists) ;
+	if (lists.length > 0)
+    {
+		for (var i = 0; i < lists.length; i++)
+			target.removeChild(lists[i]);
+    }
+}
+function gradeChange(tx,index)
+{
+	//alert(tx + index);
+	drag_key = "chord_drag" + index;
+	//this.options[this.options.selectedIndex].text;
+	var item = document.getElementById(drag_key);
+	key = tx;
+	img = get_key_image(key);
+	//alert(img);
+	item.src = img;
+}
+function init(default_key)
+{
+	lists = key_list;
+	for(var i = 1;i< 17;i++)
+	{
+		key = "chord_src" + i;
+		var selid = document.getElementById(key);
+		for(var j = 0;j< lists.length;j++)
+			selid.add(new Option(lists[j],j),j);
+			
+		drag_key = "chord_drag" + i;	
+		var image_item = document.getElementById(drag_key);
+		if ((i - 1) < default_key.length)
+		{
+			key = default_key[i - 1];
+			img = get_key_image(key);
+			image_item.src = img;
+			select_key_index = get_key_index(key);
+			//console.log(select_key_index);
+			selid.value = select_key_index;
+		}
+    }
+	
+}
+
+function get_key_index(key)
+{
+	for(var j = 0;j< lists.length;j++)
+		if (key == lists[j])
+			return j;
+	return -1;
+}
+
+function get_key_image(key)
+{
+	return "chord_image/" + key + ".jpg";
+}
+
+init(default_key_c_list);
+
+</script>
+</html>
