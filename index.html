@@ -2,7 +2,10 @@
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <head>
-<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<!--<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>-->
+<script type="text/javascript" src="js/jquery-1.5.js"></script>
+<script type="text/javascript" src="js/freeze-head.js"></script>
+
 <style type="text/css">
 #div1 {width:1; height:64;padding:10px;border:1px solid #aaaaaa;display: inline-block;}
 .chord_cell {height:64px;border:1px solid #aaaaaa;}
@@ -53,13 +56,19 @@
 	<bdo dir="ltr">备注</bdo>
 	<input value="无"></input>
 </div>
-<!-- title end-->
 
-<!-- chord source -->
+
+<!-- main-->
 <div> <bdo dir="ltr">和弦示意图(可拖拽)</bdo></div>
-<table border = "1px" width="100%" height="100%" style="table-layout:fixed">
+<table id="table_chord" border = "1px" width="100%" height="100%" style="table-layout:fixed">
+<!--
+	<thead>
+		<tr><th style="background-color: #F5E9A3">&nbsp;</th><th>Heading 2</th><th>Heading 3</th><th>Heading 4</th></tr>
+	</thead>
+-->
+	<thead>
 	<tr>
-		<td id="chord_cell_name"> <select id = 'chord_src1'  onchange="gradeChange(this.options[this.options.selectedIndex].text,1)" ></select></td>
+		<th id="chord_cell_name"> <select id = 'chord_src1'  onchange="gradeChange(this.options[this.options.selectedIndex].text,1)" ></select></th>
 		<td id="chord_cell_name"> <select id = 'chord_src2'  onchange="gradeChange(this.options[this.options.selectedIndex].text,2)" ></select></td>
 		<td id="chord_cell_name"> <select id = 'chord_src3'  onchange="gradeChange(this.options[this.options.selectedIndex].text,3)" ></select></td>
 		<td id="chord_cell_name"> <select id = 'chord_src4'  onchange="gradeChange(this.options[this.options.selectedIndex].text,4)" ></select></td>
@@ -71,25 +80,25 @@
 		<td id="chord_cell_name"> <select id = 'chord_src10'  onchange="gradeChange(this.options[this.options.selectedIndex].text,10)" ></select></td>
 		<td id="chord_cell_name"> <select id = 'chord_src11'  onchange="gradeChange(this.options[this.options.selectedIndex].text,11)" ></select></td>
 		<td id="chord_cell_name"> <select id = 'chord_src12'  onchange="gradeChange(this.options[this.options.selectedIndex].text,12)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src13'  onchange="gradeChange(this.options[this.options.selectedIndex].text,13)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src14'  onchange="gradeChange(this.options[this.options.selectedIndex].text,14)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src15'  onchange="gradeChange(this.options[this.options.selectedIndex].text,15)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src16'  onchange="gradeChange(this.options[this.options.selectedIndex].text,16)" ></select></td>
 	</tr>
 	
-	<tr>
-		<td id="chord_cell"><img id="chord_drag1" draggable="true" ondragstart="drag(event)" /></td>
-		<td id="chord_cell"><img id="chord_drag2" draggable="true" ondragstart="drag(event)" /></td>
-		<td id="chord_cell"><img id="chord_drag3" draggable="true" ondragstart="drag(event)" /></td>
-		<td id="chord_cell"><img id="chord_drag4" draggable="true" ondragstart="drag(event)" /></td>
-		<td id="chord_cell"><img id="chord_drag5" draggable="true" ondragstart="drag(event)" /></td>
+	<tr >
+		<th id="chord_cell"><img id="chord_drag1" draggable="true" ondragstart="drag(event)" /></th>
+		<th id="chord_cell"><img id="chord_drag2" draggable="true" ondragstart="drag(event)" /></th>
+		<th id="chord_cell"><img id="chord_drag3" draggable="true" ondragstart="drag(event)" /></th>
+		<th id="chord_cell"><img id="chord_drag4" draggable="true" ondragstart="drag(event)" /></th>
+		<th id="chord_cell"><img id="chord_drag5" draggable="true" ondragstart="drag(event)" /></th>
+		<th id="chord_cell"><img id="chord_drag6" draggable="true" ondragstart="drag(event)" /></th>
+		<th id="chord_cell"><img id="chord_drag7" draggable="true" ondragstart="drag(event)" /></th>
+		<th id="chord_cell"><img id="chord_drag8" draggable="true" ondragstart="drag(event)" /></th>
+		<th id="chord_cell"><img id="chord_drag9" draggable="true" ondragstart="drag(event)" /></th>
+		<th id="chord_cell"><img id="chord_drag10" draggable="true" ondragstart="drag(event)" /></th>
+		<th id="chord_cell"><img id="chord_drag11" draggable="true" ondragstart="drag(event)" /></th>
+		<th id="chord_cell"><img id="chord_drag12" draggable="true" ondragstart="drag(event)" /></th>
 	</tr>
-</table>
-<!-- chord source end-->
-
-<!-- main-->
-<div> <bdo dir="ltr">乐谱</bdo></div>
-<table id="table_chord" border = "1px" width="100%" height="100%" style="table-layout:fixed">
+	<!--<tr><td colspan='12'><input style="width:99%; height: 100%" value="乐谱(从下面开始编辑)"></input></td></tr> -->
+	<tr><td colspan='12'><p style="width:99%; height: 100%">乐谱(从下面开始编辑)</p></td></tr>
+	</thead>
 </table>
 <div>
 	<button onclick="add_line()">新增一行</button>
@@ -98,7 +107,7 @@
 <hr border='1px'/>
 <div>
 	<bdo dir="ltr">歌词字体大小</bdo>
-	<input id="lyric_size" type="range" value="5" onchange="change_lyric_font_size()">
+	<input id="lyric_size" type="range" min="10" max="30" value="12" onchange="change_lyric_font_size()">
 </div>
 <div><button>全部保存</button></div>
 <!-- main end-->
@@ -110,9 +119,10 @@
 </body>
 
 <script type="text/javascript">
-var key_list = ["C","D","E","F","G","A","B","Cm","Dm","Em","Fm","Gm","Am","Bm"];
+var key_list = ["","C","D","E","F","G","A","B","Cm","Dm","Em","Fm","Gm","Am","Bm"];
 var default_key_c_list = ["C","Am","F","G", "F", "Em"];
 var g_row_index = -1;
+var g_lyric_font_size = '12px';
 
 function get_table_values()
 {
@@ -122,32 +132,36 @@ function get_table_values()
 function change_lyric_font_size()
 {
 	var size = document.getElementById('lyric_size').value;
+	g_lyric_font_size = size + 'px';
+	var sel_beat_time_id = document.getElementById('beat_time');
+	var beat_time = sel_beat_time_id.value;
 	console.log('font size change:' + size);
-
-	var tb = document.getElementById('table_chord');
-	console.log(tb.rows.length);
-	for (var row = 0; row < tb.rows.length; row++)
+	var cnt;
+	if (beat_time == "4/4")
 	{
-		//console.log(tb.rows[row].cells.length);
-		for (var col = 0; col < tb.rows[row].cells.length; col++) 
-		{
-			console.log(tb.rows[row].cells[col].innerHTML);
-			console.log(typeof tb.rows[row].cells[col].innerHTML);
-			if (tb.rows[row].cells[col].innerHTML.length > 0)
-			{
-				var item = tb.rows[row].cells[col].innerHTML.getElementsByTagName('input');		
+		cnt = (g_row_index + 1)/2 * 3;
+	}
+	else if (beat_time == "3/4")
+	{
+		cnt = (g_row_index + 1)/2 * 4;
+	}
+	else
+	{
+		cnt = (g_row_index + 1)/2 * 6;
+	}
 
-				if (item != undefined)
-				{
-					console.log(item);
-				//console.log(tb.rows[row].cells[col].innerHTML);
-				//console.log(item);				
-				//console.log('-----------------------------------------');
-				}
-				console.log('-----------------------------------------');
-			}
+	for (var i = 1; i <= cnt; i++)
+	{
+		key = 'main_lyric' + i;
+		item = document.getElementById(key);
+		console.log(item.children[0]);
+		/*check td child input*/
+		if (item.children[0] != null)
+		{
+			item.children[0].style.fontSize = size + "px";
 		}
 	}
+	
 	
 }
 
@@ -165,6 +179,8 @@ function del_line()
 
 function add_line()
 {
+	var tb = document.getElementById('table_chord');
+	var tbb = tb.getElementsByTagName("tbody");
 	console.log("add line");
 	g_row_index += 2;
 		
@@ -177,7 +193,7 @@ function add_line()
 	for(var i = 0; i < 12; i++)
 	{
 		index = i + (g_row_index - 1)/2 * 12 + 1;
-		s += "<td" + " main_chord_index" + index + " class='chord_cell' ondrop='drop(event)' ondragover='allowDrop(event)' onclick='on_click_clear_single(this)'> </td>";
+		s += "<td" + " id = main_chord" + index + " class='chord_cell' ondrop='drop(event)' ondragover='allowDrop(event)' onclick='on_click_clear_single(this)'> </td>";
 	}
 	s += "</tr>";
 
@@ -187,7 +203,11 @@ function add_line()
 		for(var i = 0; i < 3; i++)
 		{
 			index = i + (g_row_index - 1)/2 * 3 + 1;
-			s += "<td" + " main_lyric" + index + " colspan='4'><input style='width:96%; height: 100%'></input></td>";
+			style="'width:96%;height:100%;" +  "font-size:" + g_lyric_font_size + "'";
+			s += "<td" + " id = main_lyric" + index;
+			s += " colspan='4'>";
+			s += '<input style=' + style;
+			s += " ></input></td>";
 		}
 		s += "</tr>";
 
@@ -199,7 +219,11 @@ function add_line()
 		for(var i = 0; i < 4; i++)
 		{
 			index = i + (g_row_index - 1)/2 * 4 + 1;
-			s += "<td" + " main_lyric" + index + " colspan='4'><input style='width:96%; height: 100%'></input></td>";
+			style="'width:95%;height:100%;" +  "font-size:" + g_lyric_font_size + "'";
+			s += "<td" + " id = main_lyric" + index;
+			s += " colspan='3'>";
+			s += '<input style=' + style;
+			s += " ></input></td>";
 		}
 		s += "</tr>";
 
@@ -210,13 +234,17 @@ function add_line()
 		for(var i = 0; i < 6; i++)
 		{
 			index = i + (g_row_index - 1)/2 * 6 + 1;
-			s += "<td" + " main_lyric" + index + " colspan='4'><input style='width:96%; height: 100%'></input></td>";
+			style="'width:94%;height:100%;" +  "font-size:" + g_lyric_font_size + "'";
+			s += "<td" + " id = main_lyric" + index;
+			s += " colspan='2'>";
+			s += '<input style=' + style;
+			s += " ></input></td>";
 		}
 		s += "</tr>";
 
 	}
 	$('#table_chord').append(s);
-	
+	console.log(tbb);
 }
 
 function allowDrop(ev)
@@ -244,8 +272,12 @@ function drop(ev)
 	//console.log(data);
 	item = document.getElementById(data);
 	var img_node = document.createElement('img');
+	//img_node.innerHTML=item.innerHTML;
+	console.log(data);
+	//console.log(item.innerHTML);
 	img_node.src = item.src;
-	
+	//img_node.setAttribute("draggable","true");
+	//img_node.setAttribute("ondragstart","drag(event)");
 	//ev.target = img_node;
 	//ev.target.replaceChild(img_node);
 	//ev.target.appendChild(img_node);
@@ -291,17 +323,20 @@ function gradeChange(tx,index)
 function init(default_key)
 {
 	lists = key_list;
-	for(var i = 1;i< 17;i++)
+	for(var i = 1;i<= 12;i++)
 	{
 		key = "chord_src" + i;
 		var selid = document.getElementById(key);
 		for(var j = 0;j< lists.length;j++)
 			selid.add(new Option(lists[j],j),j);
 			
-		drag_key = "chord_drag" + i;	
-		var image_item = document.getElementById(drag_key);
+			
+		
 		if ((i - 1) < default_key.length)
 		{
+			drag_key = "chord_drag" + i;
+			console.log(drag_key);
+			var image_item = document.getElementById(drag_key);
 			key = default_key[i - 1];
 			img = get_key_image(key);
 			image_item.src = img;
@@ -309,7 +344,7 @@ function init(default_key)
 			//console.log(select_key_index);
 			selid.value = select_key_index;
 		}
-    }
+   	 }
 	
 }
 
@@ -327,6 +362,8 @@ function get_key_image(key)
 }
 
 init(default_key_c_list);
-
+$(document).ready(function(){
+	$("table").freezeHeader({ top: true, left: true });
+});
 </script>
 </html>
