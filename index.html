@@ -12,13 +12,13 @@
 #chord_cell_name {border:1px solid #aaaaaa;}
 .title-margin-center{
                 width: 100%;
-                height: 100px;
+                height: 70px;
                 text-align: center;
                 line-height: 100px;
 }
 #left-li{
 	float:left;
-	margin-left:30px;
+	width:16%;
 	};
 
 #right-li{
@@ -38,24 +38,24 @@ a:visited{color:black;}
 <body>
 <!--<nav style="background-color:#EFEFEF;width:100%;height:50px;margin-top:0px">
 -->
-<nav>
-					<ul >
-						<li id="left-li"><img src='chord_image/logo.jpg' style="width:50px;height:50px"></li>
-						<li id="left-li"><a href="index.html">曲谱列表</a></li>
-						<li id="left-li"><a href="index.html">曲谱编辑</a></li>
-						<li id="left-li"><a href="index.html">关于我们</a></li>
-						<li id="left-li"><a href="index.html">用户</a></li>
+
+					<div style="width:100%">
+						<div id="left-li"><img src='chord_image/logo.jpg' style="width:50px;height:50px"></div>
+						<div id="left-li"><a href="index.html">曲谱列表</a></div>
+						<div id="left-li"><a href="index.html">曲谱编辑</a></div>
+						<div id="left-li"><a href="index.html">曲谱编辑教程</a></div>
+						<div id="left-li"><a href="index.html">关于我们</a></div>
+						<div id="left-li"><a href="index.html">用户</a></div>
 			
-					</ul>
+					</div>
+					
 
 
-	
-				</nav>
 <!-- title -->
-<div><input class="title-margin-center" value="音乐名称"> </input></div>
+<div><input class="title-margin-center" value="音乐名称" id = 'music_title'> </input></div>
 <div>
 	<bdo dir="ltr">音调</bdo>
-	<select>
+	<select id = "music_key">
 		<option value ="C">C调</option>
 		<option value ="D">D调</option>
 		<option value="E">E调</option>
@@ -76,15 +76,15 @@ a:visited{color:black;}
 
 <div>
 	<bdo dir="ltr">速度</bdo>
-	<input value="70"></input>
+	<input id="music_speed" value="70"></input>
 </div>
 <div>
 	<bdo dir="ltr">作者</bdo>
-	<input value="佚名"></input>
+	<input id="music_author" value="佚名"></input>
 </div>
 <div>
 	<bdo dir="ltr">备注</bdo>
-	<input value="无"></input>
+	<input id="music_verbose" value="无"></input>
 </div>
 
 
@@ -139,7 +139,11 @@ a:visited{color:black;}
 	<bdo dir="ltr">歌词字体大小</bdo>
 	<input id="lyric_size" type="range" min="10" max="30" value="12" onchange="change_lyric_font_size()">
 </div>
-<div><button>全部保存</button></div>
+<div>
+	<button id = "music_save" onclick="music_save()">保存</button>
+	<button>载入</button>
+	<button>上传服务器</button>
+</div>
 <!-- main end-->
 
 <!--
@@ -358,7 +362,7 @@ function init(default_key)
 		key = "chord_src" + i;
 		var selid = document.getElementById(key);
 		for(var j = 0;j< lists.length;j++)
-			selid.add(new Option(lists[j],j),j);
+			selid.add(new Option(lists[j],j),lists[j]);
 			
 			
 		
@@ -391,9 +395,94 @@ function get_key_image(key)
 	return "chord_image/" + key + ".jpg";
 }
 
+function music_save()
+{
+	var title = document.getElementById('music_title').value;
+	var key = document.getElementById('music_key').value;
+	var beat_time = document.getElementById('beat_time').value;
+	var speed = document.getElementById('music_speed').value;
+	var author = document.getElementById('music_author').value;
+	var verbose = document.getElementById('music_verbose').value;
+	/*flag*/
+	var s= 'gtp singer' + '\n';
+	s += title + "\n";
+	s += key + "\n";
+	s += beat_time + "\n";
+	s += speed + "\n";
+	s += author + "\n";
+	s += verbose + "\n";
+	/*chord source*/
+	for (var i = 1; i <= 12; i++)
+	{	
+		key = 'chord_src' + i;
+		var selid = document.getElementById(key);
+		var options = selid.options;
+		var index = selid.selectedIndex;
+		var value = options[index].text;
+		s += value + "\n";
+
+	}
+
+	var line_number = (g_row_index + 1)/2;
+	var chord_max_index = line_number * 12;
+	var lyric_max_index = 0;
+	console.log('line num:' + line_number);
+
+	if (beat_time == "4/4")
+	{
+		lyric_max_index = line_number * 3; 
+	}
+
+	else if (beat_time == "3/4")
+	{
+		lyric_max_index = line_number * 4;
+
+	}
+	else
+	{
+		lyric_max_index = line_number * 6;
+
+	}
+	for (var i = 1; i <= chord_max_index;i++)
+	{
+		key = 'main_chord' + i;
+		item = document.getElementById(key);
+		if (item.children[0] != undefined)
+		{
+			msg = item.children[0].outerHTML;
+			var start = msg.lastIndexOf("/");
+			var end = msg.lastIndexOf(".");
+			var len = end - start - 1;
+			console.log(msg.substr(start + 1,len));
+			s += msg.substr(start + 1,len) + '\n';
+		}
+		else
+		{
+			s += 'blank' + '\n';
+		}
+	}
+
+
+	console.log(s);
+	//chord_src1
+}
+
+function save_file(name, data) {
+	var urlObject = window.URL || window.webkitURL || window;
+	var export_blob = new Blob([data]);
+	var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+	save_link.href = urlObject.createObjectURL(export_blob);
+	save_link.download = name;
+
+	var ev = document.createEvent("MouseEvents");
+   	ev.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+   	save_link.dispatchEvent(ev);
+}
+ 
 init(default_key_c_list);
 $(document).ready(function(){
 	$("table").freezeHeader({ top: true, left: true });
 });
+//save_file('tmp','abcdefdfadsf');
 </script>
 </html>
