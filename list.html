@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<!--<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>-->
+<script type="text/javascript" src="js/jquery-1.5.js"></script>
+<script type="text/javascript" src="js/freeze-head.js"></script>
+
+<style type="text/css">
+#div1 {width:1; height:64;padding:10px;border:1px solid #aaaaaa;display: inline-block;}
+.chord_cell {height:64px;border:1px solid #aaaaaa;}
+#chord_cell_name {border:1px solid #aaaaaa;}
+.title-margin-center{
+                width: 100%;
+                height: 70px;
+                text-align: center;
+                line-height: 100px;
+}
+#left-li{
+	float:left;
+	width:16%;
+	};
+
+#right-li{
+	float:right;
+	margin:12px;
+	};
+
+#href-black{
+	color:"#000";
+	};
+a:link{color:red;}
+a:visited{color:black;}
+
+</style>
+
+</head>
+<body>
+
+	<div style="width:100%">
+		<div id="left-li"><img src='chord_image/logo.jpg' style="width:50px;height:50px"></div>
+		<div id="left-li"><a href="index.html">曲谱列表</a></div>
+		<div id="left-li"><a href="index.html">曲谱编辑</a></div>
+		<div id="left-li"><a href="index.html">曲谱编辑教程</a></div>
+		<div id="left-li"><a href="index.html">关于我们</a></div>
+		<div id="left-li"><a href="index.html">用户</a></div>
+			
+	</div>
+					
+
+
+<!-- title -->
+<table id="table_chord" border = "1px" width="100%" height="100%" >
+	<tr>
+		<th width="70%"><p >曲谱名称</p></th>
+		<th width="20%"><p>作者</p></th>
+		<th><p>点击数</p></th>
+		
+	</tr>
+	<tr>
+		<td ><a href="javascript:click_pro('music1')" id = 'music1' >让我们荡起双桨</a></td>
+		<td><p>奥巴吗</p></td>
+		<td><p>333</p></td>
+	</tr>
+	<tr>
+		<td><p>啊啊啊</p></td>
+		<td><p>奥巴吗</p></td>
+		<td><p>333</p></td>
+	</tr>
+	<tr>
+		<td><p>啊啊啊</p></td>
+		<td><p>奥巴吗</p></td>
+		<td><p>333</p></td>
+	</tr>
+	<tr>
+		<td><p>啊啊啊</p></td>
+		<td><p>奥巴吗</p></td>
+		<td><p>333</p></td>
+	</tr>
+	<tr>
+		<td><p>啊啊啊</p></td>
+		<td><p>奥巴吗</p></td>
+		<td><p>333</p></td>
+	</tr>
+	<tr>
+		<td><p>啊啊啊</p></td>
+		<td><p>奥巴吗</p></td>
+		<td><p>333</p></td>
+	</tr>
+	<tr>
+		<td><p>啊啊啊</p></td>
+		<td><p>奥巴吗</p></td>
+		<td><p>333</p></td>
+	</tr>
+	<tr>
+		<td><p>啊啊啊</p></td>
+		<td><p>奥巴吗</p></td>
+		<td><p>333</p></td>
+	</tr>
+</table>
+</body>
+
+<script type="text/javascript">
+function click_pro(id_name)
+{
+	var id = document.getElementById(id_name);
+	var music_name = id.innerText;
+	console.log("click pro:" + music_name);
+}
+//save_file('tmp','abcdefdfadsf');
+</script>
+</html>
