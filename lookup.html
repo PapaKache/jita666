@@ -2,8 +2,8 @@
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <head>
-<!--<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>-->
-<script type="text/javascript" src="js/jquery-1.5.js"></script>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<!--<script type="text/javascript" src="js/jquery-1.5.js"></script> -->
 <script type="text/javascript" src="js/freeze-head.js"></script>
 
 <style type="text/css">
@@ -55,7 +55,7 @@ a:visited{color:black;}
 <div><input class="title-margin-center" value="音乐名称" id = 'music_title'> </input></div>
 <div>
 	<bdo dir="ltr">音调</bdo>
-	<select id = "music_key">
+	<select id = "music_key" disabled="disabled">
 		<option value ="C">C调</option>
 		<option value ="D">D调</option>
 		<option value="E">E调</option>
@@ -65,7 +65,7 @@ a:visited{color:black;}
 
 <div>
 	<bdo dir="ltr">节拍</bdo>
-	<select id='beat_time'>
+	<select id='beat_time ' disabled="disabled">
 		<option value ="4/4">4/4</option>
 		<option value ="3/4">3/4</option>
 		<option value="2/4">2/4</option>
@@ -76,20 +76,20 @@ a:visited{color:black;}
 
 <div>
 	<bdo dir="ltr">速度</bdo>
-	<input id="music_speed" value="70"></input>
+	<input id="music_speed" value="70" readonly="readonly"></input>
 </div>
 <div>
 	<bdo dir="ltr">作者</bdo>
-	<input id="music_author" value="佚名"></input>
+	<input id="music_author" value="佚名" readonly="readonly"></input>
 </div>
 <div>
 	<bdo dir="ltr">备注</bdo>
-	<input id="music_verbose" value="无"></input>
+	<input id="music_verbose" value="无" readonly="readonly"></input>
 </div>
 
 
 <!-- main-->
-<div> <bdo dir="ltr">和弦示意图(可拖拽)</bdo></div>
+<div> <bdo dir="ltr">和弦示意图</bdo></div>
 <table id="table_chord" border = "1px" width="100%" height="100%" style="table-layout:fixed">
 <!--
 	<thead>
@@ -130,20 +130,13 @@ a:visited{color:black;}
 	<tr><td colspan='12'><p style="width:99%; height: 100%">乐谱(从下面开始编辑)</p></td></tr>
 	</thead>
 </table>
-<div>
-	<button onclick="add_line()">新增一行</button>
-	<button onclick="del_line()">减少一行</button>
-</div>
+
 <hr border='1px'/>
 <div>
 	<bdo dir="ltr">歌词字体大小</bdo>
-	<input id="lyric_size" type="range" min="10" max="30" value="12" onchange="change_lyric_font_size()">
+	<input id="lyric_size" type="range" min="10" max="50" value="12" onchange="change_lyric_font_size()">
 </div>
-<div>
-	<button id = "music_save" onclick="music_save()">保存</button>
-	<button>载入</button>
-	<button>上传服务器</button>
-</div>
+<input type='file' id="load_music_file" onchange="load_file()">载入</button>
 <!-- main end-->
 
 <!--
@@ -153,10 +146,74 @@ a:visited{color:black;}
 </body>
 
 <script type="text/javascript">
-var key_list = ["","C","D","E","F","G","A","B","Cm","Dm","Em","Fm","Gm","Am","Bm"];
-var default_key_c_list = ["C","Am","F","G", "F", "Em"];
-var g_row_index = -1;
-var g_lyric_font_size = '12px';
+key_list = ["","C","D","E","F","G","A","B","Cm","Dm","Em","Fm","Gm","Am","Bm"];
+default_key_c_list = ["C","Am","F","G", "F", "Em"];
+g_row_index = -1;
+g_lyric_font_size = '12px';
+
+function  onclick_fast_load_lyric()
+{
+	document.getElementById("button_fast_load_lyric").style.display="none";
+	div = document.getElementById("div_fast_load_lyric");
+	div.style.display = "block";
+}
+
+function onclick_fast_load_lyric_confirm()
+{
+	document.getElementById("button_fast_load_lyric").style.display="block";
+	div = document.getElementById("div_fast_load_lyric");
+	div.style.display = "none";
+	
+	lyrics = document.getElementById("lyric_load_values").value;
+	//console.log("thie vlaues:" + values);
+	lyrics = lyrics.replace("\r\n","\n");
+	//console.log(lyrics);
+	lyric_array = lyrics.split('\n');
+	console.log(lyric_array);
+
+	if (lyric_array.length <= 1)
+		return;
+	while(del_line() == 0)
+	{
+		sleep(10);
+	}
+	var sel_beat_time_id = document.getElementById('beat_time');
+	var beat_time = sel_beat_time_id.value;
+	var line_number_lyric = 3;
+	
+	if (beat_time == "4/4")
+	{
+		line_number_lyric = 3;
+	}
+	else if (beat_time == "3/4")
+	{
+		line_number_lyric = 4;
+	}
+	else
+	{
+		line_number_lyric = 6;
+	}
+	var line_number = parseInt(lyric_array.length/line_number_lyric);
+	console.log('line number:' + line_number);
+	while(line_number)
+	{
+		line_number = line_number - 1;
+		add_line()
+	};
+	for (var i = 1; i <= lyric_array.length;i++)
+	{
+		lyric = lyric_array[i - 1];
+		key = 'main_lyric' + i;
+		td = document.getElementById(key);
+			
+		if (td.children[0] != undefined)
+		{
+			td.children[0].value = lyric;
+			
+		}
+	}
+
+}
 
 function get_table_values()
 {
@@ -202,13 +259,13 @@ function change_lyric_font_size()
 function del_line()
 {
 	if (g_row_index < 0)
-		return;
-
+		return -1;
+	//console.log(g_row_index);
 	var tb = document.getElementById('table_chord');
-	tb.rows[g_row_index].remove();
-	tb.rows[g_row_index - 1].remove();
+	tb.rows[g_row_index +  3].remove();
+	tb.rows[g_row_index - 1 + 3].remove();
 	g_row_index -= 2;
-	
+	return 0;
 }
 
 function add_line()
@@ -310,15 +367,7 @@ function drop(ev)
 	console.log(data);
 	//console.log(item.innerHTML);
 	img_node.src = item.src;
-	//img_node.setAttribute("draggable","true");
-	//img_node.setAttribute("ondragstart","drag(event)");
-	//ev.target = img_node;
-	//ev.target.replaceChild(img_node);
-	//ev.target.appendChild(img_node);
-	//ev.target.appendChild(document.getElementById(data));
-	
 	let lists=target.getElementsByTagName("img");
-    //console.log(lists) ;
 	if (lists.length > 0)
     {
 		for (var i = 0; i < lists.length; i++)
@@ -352,7 +401,10 @@ function gradeChange(tx,index)
 	key = tx;
 	img = get_key_image(key);
 	//alert(img);
-	item.src = img;
+	if (tx != "")
+		item.src = img;
+	else
+		item.src ="";
 }
 function init(default_key)
 {
@@ -361,6 +413,10 @@ function init(default_key)
 	{
 		key = "chord_src" + i;
 		var selid = document.getElementById(key);
+		while (selid.firstChild) {
+			selid.removeChild(selid.firstChild);
+		}
+
 		for(var j = 0;j< lists.length;j++)
 			selid.add(new Option(lists[j],j),lists[j]);
 			
@@ -369,9 +425,11 @@ function init(default_key)
 		if ((i - 1) < default_key.length)
 		{
 			drag_key = "chord_drag" + i;
-			console.log(drag_key);
+			//console.log(drag_key);
 			var image_item = document.getElementById(drag_key);
 			key = default_key[i - 1];
+			if (key == "")
+				continue;
 			img = get_key_image(key);
 			image_item.src = img;
 			select_key_index = get_key_index(key);
@@ -393,6 +451,16 @@ function get_key_index(key)
 function get_key_image(key)
 {
 	return "chord_image/" + key + ".jpg";
+}
+
+function sleep(n) 
+{
+        var start = new Date().getTime();
+        while (true) {
+            if (new Date().getTime() - start > n) {
+                break;
+            }
+        }
 }
 
 function music_save()
@@ -506,7 +574,122 @@ function save_file(name, data) {
    	save_link.dispatchEvent(ev);
 }
  
+function load_file()
+{
+	var file=document.getElementById("load_music_file");
+        var reader=new FileReader();
+	//console.log(file);
+	//console.log(file.files[0]);
+	reader.readAsText(file.files[0]);
+	
+	reader.onload=function(e)
+	{
+		//console.log(e.target.result);
+		/*clear all main chord*/
+		while(del_line() == 0)
+		{
+			sleep(10);
+		}
+		vs = e.target.result.split('\n');
+		console.log(vs);
+		flag= vs[0];
+		title = vs[1];
+		key = vs[2];
+		beat_time = vs[3];
+		speed = vs[4];
+		author = vs[5];
+		verbose = vs[6];
+		row_index = parseInt(vs[7]);
+		g_lyric_font_size = vs[8];
+
+		document.getElementById('music_title').value = title;
+		document.getElementById('music_key').value = key;
+		document.getElementById('beat_time').value = beat_time;
+		document.getElementById('music_speed').value = speed;
+		document.getElementById('music_author').value = author;
+		document.getElementById('music_verbose').value = verbose;
+	
+		console.log(row_index);
+		var line_number = (row_index + 1)/2;
+		var chord_max_index = line_number * 12;
+		var lyric_max_index = 0;
+		console.log('line num:' + line_number);
+
+		if (beat_time == "4/4")
+		{
+			lyric_max_index = line_number * 3; 
+		}
+
+		else if (beat_time == "3/4")
+		{
+			lyric_max_index = line_number * 4;
+	
+		}
+		else
+		{
+			lyric_max_index = line_number * 6;
+	
+		}
+		var chord_list = ["","","","","","","","","","","",""];
+		for (var i = 0; i < 12; i++)
+		{
+			chord = vs[9 + i];
+			
+			if (chord != "flag-blank-chord-source") 
+			{
+				chord_list[i] = chord;
+				console.log('chord src:' + chord);
+			}
+		}
+		
+		init(chord_list);
+		for (var i = 0; i < line_number;i++)
+		{
+			add_line();
+		}
+		for (var i = 1; i <= chord_max_index;i++)
+		{
+			key = 'main_chord' + i;
+			td = document.getElementById(key);
+			chord = vs[12 + 9 + i - 1];
+			console.log(chord);
+			if (chord != 'flag-blank-chord')
+			{
+				var img_node = document.createElement('img');
+				img_src = get_key_image(chord);
+				img_node.src = img_src;
+				let lists=td.getElementsByTagName("img");
+				if (lists.length > 0)
+    				{
+					for (var i = 0; i < lists.length; i++)
+						td.removeChild(lists[i]);
+    				}
+   				td.appendChild(img_node);
+			}
+	
+		}
+		for (var i = 1; i <= lyric_max_index;i++)
+		{
+			lyric = vs[12 + 9 + chord_max_index + i - 1];
+			key = 'main_lyric' + i;
+			td = document.getElementById(key);
+			
+			if (td.children[0] != undefined)
+			{
+				if (lyric != 'flag-blank-lyric')
+				{
+					td.children[0].value = lyric;
+				}
+			
+			}
+		}
+		
+        };
+	
+}
+
 init(default_key_c_list);
+console.log(window.location.href);
 
 //save_file('tmp','abcdefdfadsf');
 </script>
