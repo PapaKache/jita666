@@ -1,166 +1,154 @@
-<!DOCTYPE HTML>
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <head>
-<!--<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>-->
-<script type="text/javascript" src="js/jquery-1.5.js"></script>
-<script type="text/javascript" src="js/freeze-head.js"></script>
-
-<style type="text/css">
-#div1 {width:1; height:64;padding:10px;border:1px solid #aaaaaa;display: inline-block;}
-.chord_cell {height:64px;border:1px solid #aaaaaa;}
-#chord_cell_name {border:1px solid #aaaaaa;}
-.title-margin-center{
-                width: 100%;
-                height: 70px;
-                text-align: center;
-                line-height: 100px;
-}
-#left-li{
-	float:left;
-	width:16%;
-	};
-
-#right-li{
-	float:right;
-	margin:12px;
-	};
-
-#href-black{
-	color:"#000";
-	};
-a:link{color:red;}
-a:visited{color:black;}
-
-</style>
+	<script type="text/javascript" src="js/jquery-1.5.js"></script>
+<link rel="stylesheet" type="text/css" href="static/css/main.css">
 
 </head>
 <body>
 <!--<nav style="background-color:#EFEFEF;width:100%;height:50px;margin-top:0px">
--->
+-->	<section class = "sidebar">
+		<div class="inner">
+			<nav>		
+				<ul>
+					<li ><a href="list.html">列表</a></li>
+					<li ><a href="index.html">编辑</a></li>
+					<li ><a href="index.html">教程</a></li>
+					<li ><a href="index.html">关于</a></li>
+					<li ><a href="index.html">用户</a></li>
+				</ul>
+			</nav>	
+		</div>
+	</section>
 
-					<div style="width:100%">
-						<div id="left-li"><img src='chord_image/logo.jpg' style="width:50px;height:50px"></div>
-						<div id="left-li"><a href="list.html">曲谱列表</a></div>
-						<div id="left-li"><a href="index.html">曲谱编辑</a></div>
-						<div id="left-li"><a href="index.html">曲谱编辑教程</a></div>
-						<div id="left-li"><a href="index.html">关于我们</a></div>
-						<div id="left-li"><a href="index.html">用户</a></div>
-			
-					</div>
-					
+	<section class="chord_list" >
+			<table class="chord_list">
+				<tbody  class="chord_list">		
+					<tr>
+						<td class="chord_list_item_name">和弦名称</td>
+						<td class="chord_list_item_image">和弦图(可拖拽)</td>
+					</tr>
+					<tr>
+						<td class="chord_list_item_name"> <select id = 'chord_src1'  onchange="gradeChange(this.options[this.options.selectedIndex].text,1)" ></select></td>
+						<td class="chord_list_item_image"><img id="chord_drag1" draggable="true" ondragstart="drag(event)" /></td>
+					</tr>
+					<tr>
+						<td class="chord_list_item_name"> <select id = 'chord_src2'  onchange="gradeChange(this.options[this.options.selectedIndex].text,2)" ></select></td>
+						<td class="chord_list_item_image"><img id="chord_drag2" draggable="true" ondragstart="drag(event)" /></td>
+					</tr>							
+					<tr>
+						<td class="chord_list_item_name"> <select id = 'chord_src3'  onchange="gradeChange(this.options[this.options.selectedIndex].text,3)" ></select></td>
+						<td class="chord_list_item_image"><img id="chord_drag3" draggable="true" ondragstart="drag(event)" /></td>
+					</tr>	
+					<tr>
+						<td class="chord_list_item_name"> <select id = 'chord_src4'  onchange="gradeChange(this.options[this.options.selectedIndex].text,4)" ></select></td>
+						<td class="chord_list_item_image"><img id="chord_drag4" draggable="true" ondragstart="drag(event)" /></td>
+					</tr>
+					<tr>
+						<td class="chord_list_item_name"> <select id = 'chord_src5'  onchange="gradeChange(this.options[this.options.selectedIndex].text,5)" ></select></td>
+						<td class="chord_list_item_image"><img id="chord_drag5" draggable="true" ondragstart="drag(event)" /></td>
+					</tr>							
+					<tr>
+						<td class="chord_list_item_name"> <select id = 'chord_src6'  onchange="gradeChange(this.options[this.options.selectedIndex].text,6)" ></select></td>
+						<td class="chord_list_item_image"><img id="chord_drag6" draggable="true" ondragstart="drag(event)" /></td>
+					</tr>
+					<tr>
+						<td class="chord_list_item_name"> <select id = 'chord_src7'  onchange="gradeChange(this.options[this.options.selectedIndex].text,7)" ></select></td>
+						<td class="chord_list_item_image"><img id="chord_drag7" draggable="true" ondragstart="drag(event)" /></td>
+					</tr>
+					<tr>
+						<td class="chord_list_item_name"> <select id = 'chord_src8'  onchange="gradeChange(this.options[this.options.selectedIndex].text,8)" ></select></td>
+						<td class="chord_list_item_image"><img id="chord_drag8" draggable="true" ondragstart="drag(event)" /></td>
+					</tr>							
+					<tr>
+						<td class="chord_list_item_name"> <select id = 'chord_src9'  onchange="gradeChange(this.options[this.options.selectedIndex].text,9)" ></select></td>
+						<td class="chord_list_item_image"><img id="chord_drag9" draggable="true" ondragstart="drag(event)" /></td>
+					</tr>	
+					<tr>
+						<td class="chord_list_item_name"> <select id = 'chord_src10'  onchange="gradeChange(this.options[this.options.selectedIndex].text,10)" ></select></td>
+						<td class="chord_list_item_image"><img id="chord_drag10" draggable="true" ondragstart="drag(event)" /></td>
+					</tr>
+					<tr>
+						<td class="chord_list_item_name"> <select id = 'chord_src11'  onchange="gradeChange(this.options[this.options.selectedIndex].text,11)" ></select></td>
+						<td class="chord_list_item_image"><img id="chord_drag11" draggable="true" ondragstart="drag(event)" /></td>
+					</tr>							
+					<tr>
+						<td class="chord_list_item_name"> <select id = 'chord_src12'  onchange="gradeChange(this.options[this.options.selectedIndex].text,12)" ></select></td>
+						<td class="chord_list_item_image"><img id="chord_drag12" draggable="true" ondragstart="drag(event)" /></td>
+					</tr>					
+			</tbody>	
+		</table>
+	</section>
 
 
-<!-- title -->
-<div><input class="title-margin-center" value="音乐名称" id = 'music_title'> </input></div>
-<div>
-	<bdo dir="ltr">音调</bdo>
-	<select id = "music_key">
-		<option value ="C">C调</option>
-		<option value ="D">D调</option>
-		<option value="E">E调</option>
-		<option value="F">F调</option>
-	</select>
-</div>
-
-<div>
-	<bdo dir="ltr">节拍</bdo>
-	<select id='beat_time'>
-		<option value ="4/4">4/4</option>
-		<option value ="3/4">3/4</option>
-		<option value="2/4">2/4</option>
-		<option value="6/8">6/8</option>
-	</select>
-</div>
-
-
-<div>
-	<bdo dir="ltr">速度</bdo>
-	<input id="music_speed" value="70"></input>
-</div>
-<div>
-	<bdo dir="ltr">作者</bdo>
-	<input id="music_author" value="佚名"></input>
-</div>
-<div>
-	<bdo dir="ltr">备注</bdo>
-	<input id="music_verbose" value="无"></input>
-</div>
-
-
-<!-- main-->
-<div> <bdo dir="ltr">和弦示意图(可拖拽)</bdo></div>
-<table id="table_chord" border = "1px" width="100%" height="100%" style="table-layout:fixed">
-<!--
-	<thead>
-		<tr><th style="background-color: #F5E9A3">&nbsp;</th><th>Heading 2</th><th>Heading 3</th><th>Heading 4</th></tr>
-	</thead>
--->
-	<thead>
-	<tr>
-		<th id="chord_cell_name"> <select id = 'chord_src1'  onchange="gradeChange(this.options[this.options.selectedIndex].text,1)" ></select></th>
-		<td id="chord_cell_name"> <select id = 'chord_src2'  onchange="gradeChange(this.options[this.options.selectedIndex].text,2)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src3'  onchange="gradeChange(this.options[this.options.selectedIndex].text,3)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src4'  onchange="gradeChange(this.options[this.options.selectedIndex].text,4)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src5'  onchange="gradeChange(this.options[this.options.selectedIndex].text,5)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src6'  onchange="gradeChange(this.options[this.options.selectedIndex].text,6)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src7'  onchange="gradeChange(this.options[this.options.selectedIndex].text,7)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src8'  onchange="gradeChange(this.options[this.options.selectedIndex].text,8)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src9'  onchange="gradeChange(this.options[this.options.selectedIndex].text,9)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src10'  onchange="gradeChange(this.options[this.options.selectedIndex].text,10)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src11'  onchange="gradeChange(this.options[this.options.selectedIndex].text,11)" ></select></td>
-		<td id="chord_cell_name"> <select id = 'chord_src12'  onchange="gradeChange(this.options[this.options.selectedIndex].text,12)" ></select></td>
-	</tr>
+<section class="edit">
+	<input class="title_music_name" value="音乐名称" id = 'music_title'> </input>
+	<div>
+		<bdo dir="ltr">音调</bdo>
+		<select id = "music_key">
+			<option value ="C">C调</option>
+			<option value ="D">D调</option>
+			<option value="E">E调</option>
+			<option value="F">F调</option>
+		</select>
+	</div>
 	
-	<tr >
-		<th id="chord_cell"><img id="chord_drag1" draggable="true" ondragstart="drag(event)" /></th>
-		<th id="chord_cell"><img id="chord_drag2" draggable="true" ondragstart="drag(event)" /></th>
-		<th id="chord_cell"><img id="chord_drag3" draggable="true" ondragstart="drag(event)" /></th>
-		<th id="chord_cell"><img id="chord_drag4" draggable="true" ondragstart="drag(event)" /></th>
-		<th id="chord_cell"><img id="chord_drag5" draggable="true" ondragstart="drag(event)" /></th>
-		<th id="chord_cell"><img id="chord_drag6" draggable="true" ondragstart="drag(event)" /></th>
-		<th id="chord_cell"><img id="chord_drag7" draggable="true" ondragstart="drag(event)" /></th>
-		<th id="chord_cell"><img id="chord_drag8" draggable="true" ondragstart="drag(event)" /></th>
-		<th id="chord_cell"><img id="chord_drag9" draggable="true" ondragstart="drag(event)" /></th>
-		<th id="chord_cell"><img id="chord_drag10" draggable="true" ondragstart="drag(event)" /></th>
-		<th id="chord_cell"><img id="chord_drag11" draggable="true" ondragstart="drag(event)" /></th>
-		<th id="chord_cell"><img id="chord_drag12" draggable="true" ondragstart="drag(event)" /></th>
-	</tr>
-	<!--<tr><td colspan='12'><input style="width:99%; height: 100%" value="乐谱(从下面开始编辑)"></input></td></tr> -->
-	<tr><td colspan='12'><p style="width:99%; height: 100%">乐谱(从下面开始编辑)</p></td></tr>
-	</thead>
-</table>
-<div>
-	<button onclick="add_line()">新增一行</button>
-	<button onclick="del_line()">减少一行</button>
-</div>
-<hr border='1px'/>
-<div>
-	<bdo dir="ltr">歌词字体大小</bdo>
-	<input id="lyric_size" type="range" min="10" max="50" value="12" onchange="change_lyric_font_size()">
-</div>
-<div>
-	<button id = "music_save" onclick="music_save()">保存</button>
-	<input type='file' id="load_music_file" onchange="load_file()">载入</button>
-	<button>上传服务器</button>
-</div>
+	<div>
+		<bdo dir="ltr">节拍</bdo>
+		<select id='beat_time'>
+			<option value ="4/4">4/4</option>
+			<option value ="3/4">3/4</option>
+			<option value="2/4">2/4</option>
+			<option value="6/8">6/8</option>
+		</select>
+	</div>
+	
+	
+	<div>
+		<bdo dir="ltr">速度</bdo>
+		<input id="music_speed" value="70"></input>
+	</div>
+	<div>
+		<bdo dir="ltr">作者</bdo>
+		<input id="music_author" value="佚名"></input>
+	</div>
+	<div>
+		<bdo dir="ltr">备注</bdo>
+		<input id="music_verbose" value="无"></input>
+	</div>
+	
+	<div>
+		<button onclick="add_line()">新增一行</button>
+		<button onclick="del_line()">减少一行</button>
+		<table class="edit" id="table_chord">
+			<tbody>
+			
+			</tbody>
+		</table>
+	</div>
+	<hr border='1px'/>
+	<div>
+		<bdo dir="ltr">歌词字体大小</bdo>
+		<input id="lyric_size" type="range" min="10" max="50" value="12" onchange="change_lyric_font_size()">
+	</div>
+	<div>
+		<button id = "music_save" onclick="music_save()">保存</button>
+		<input type='file' id="load_music_file" onchange="load_file()">载入</button>
+		<button>上传服务器</button>
+	</div>
+	
+	
+	
+	<div id = 'div_fast_load_lyric' style="display:none">
+		<textarea cols="1" rows="4" style="width:100%;" id = "lyric_load_values">请在这里粘贴歌词，每句歌词用换行分割，编辑完成后点击载入</textarea>
+		<button  onclick="onclick_fast_load_lyric_confirm()">载入</button>
+	</div>
+	
+	<div>
+		<button onclick="onclick_fast_load_lyric()" id = "button_fast_load_lyric">快捷载入歌词</button>
+	</div>
+</section>
 
-
-
-<div id = 'div_fast_load_lyric' style="display:none">
-	<textarea cols="1" rows="4" style="width:100%;" id = "lyric_load_values">请在这里粘贴歌词，每句歌词用换行分割，编辑完成后点击载入</textarea>
-	<button  onclick="onclick_fast_load_lyric_confirm()">载入</button>
-</div>
-
-<div>
-	<button onclick="onclick_fast_load_lyric()" id = "button_fast_load_lyric">快捷载入歌词</button>
-</div>
-<!-- main end-->
-
-<!--
-<img id="drag1" src="c.png" draggable="true" ondragstart="drag(event)" />
-<img id="drag2" src="d.png" draggable="true" ondragstart="drag(event)" />
--->
 </body>
 
 <script type="text/javascript">
@@ -707,9 +695,6 @@ function load_file()
 }
 
 init(default_key_c_list);
-$(document).ready(function(){
-	$("table").freezeHeader({ top: true, left: true });
-});
 //save_file('tmp','abcdefdfadsf');
 </script>
 </html>
